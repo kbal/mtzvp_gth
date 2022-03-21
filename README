@@ -1,0 +1,38 @@
+An implementation of the mTZVP GTO basis set for GPW calculations with 
+GTH pseudopotentials (for example in CP2K). This basis is part of the 
+B97-3c low cost DFT approach of Brandenburg et al.: J. Chem. Phys 148, 
+064104 (2018); https://doi.org/10.1063/1.5012601
+
+I have tried to create the best possible GTH-based analog of this 
+basis by building a new basis from the following components:
+- MOLOPT-SZV-SR
+- The two "outermost" (smallest exponent) valence basis functions of 
+  the actual mTZVP basis for each relevant angular momentum.
+- Polarization functions of mTZVP
+
+Note: mTZVP is mostly the def-TZVP basis, which in turn is 
+essentially a subset of def2-TZVP. Modifications are most prominent 
+for H and O.
+
+The rationale behind my attempt is that I
+1. Keep the total number of valence (& higher) basis functions intact
+2. Don't need "core" basis functions because of the pseudopotential
+3. Use the SZV MOLOPT basis as glue between the pseudo and mTZVP
+4. Have the outermost basis functions be exactly mTZVP
+
+Point (4) ought to guarantee that at least noncovalent interactions 
+are as close to the true B97-3c result as possible.
+
+I've seen/heard that people have used other, standard CP2K basis sets
+with B97-3c, but at least some cohesive energy calculations seem to
+suggest that my attempt is closer to results reported in the original 
+B97-3c paper. I didn't do extensive checks, though, so we're still 
+in "trust me bro" territory here.
+
+I include an example ASE-based script to compute cohesive energies, 
+with ice Ih as system. This runs quite quickly even on my decade-old
+workstation. The B97-3c input deck is taken from Perlt et al.: J. 
+Chem. Phys. 148, 193835 (2018); https://doi.org/10.1063/1.5013122
+
+These sets are provided "as is" and I can't give you any meaningful 
+support, but perhaps you find them useful!
