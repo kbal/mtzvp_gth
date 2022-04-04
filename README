@@ -5,9 +5,11 @@ B97-3c low cost DFT approach of Brandenburg et al.: J. Chem. Phys 148,
 
 I have tried to create the best possible GTH-based analog of this 
 basis by building a new basis from the following components:
-- MOLOPT-SZV-SR
-- The two "outermost" (smallest exponent) valence basis functions of 
-  the actual mTZVP basis for each relevant angular momentum.
+- SZV-MOLOPT-SR
+- The n - c "outermost" (smallest exponent) valence basis functions of 
+  the actual mTZVP basis for each relevant angular momentum, where
+  c is the number of "core" orbitals that are already covered by the
+  pseudopotential or MOLOPT basis.
 - Polarization functions of mTZVP
 
 Note: mTZVP is mostly the def-TZVP basis, which in turn is 

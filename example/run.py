@@ -8,7 +8,7 @@ from ase.units import kcal,mol,Rydberg
 calc = CP2K(label='calc/cp2k',
             command='mpiexec -np 4 cp2k_shell.popt',
             charge=0,
-            cutoff=600 * Rydberg,
+            cutoff=800 * Rydberg,
             xc='',
             basis_set='mTZVP-GTH',
             pseudo_potential='GTH-PBE',
@@ -64,12 +64,12 @@ size = ncryst/nmol
 # run calcs
 cryst.set_calculator(calc)
 dyn = BFGS(cryst, trajectory='opt_cryst.traj')
-dyn.run(fmax=0.1)
+dyn.run(fmax=0.05)
 e_cryst = cryst.get_potential_energy()
 
 molec.set_calculator(calc)
 dyn = BFGS(molec, trajectory='opt_mol.traj')
-dyn.run(fmax=0.1)
+dyn.run(fmax=0.05)
 e_mol = molec.get_potential_energy()
 
 e_coh = (e_cryst - size*e_mol)/size
