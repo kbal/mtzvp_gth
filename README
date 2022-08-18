@@ -4,13 +4,14 @@ B97-3c low cost DFT approach of Brandenburg et al.: J. Chem. Phys 148,
 064104 (2018); https://doi.org/10.1063/1.5012601
 
 I have tried to create the best possible GTH-based analog of this 
-basis by building a new basis from the following components:
-- SZV-MOLOPT-SR
-- The n - c "outermost" (smallest exponent) valence basis functions of 
-  the actual mTZVP basis for each relevant angular momentum, where
-  c is the number of "core" orbitals that are already covered by the
-  pseudopotential or MOLOPT basis.
-- Polarization functions of mTZVP
+basis by building a new basis as follows
+- Take all basis functions from mTZVP of which at least one primitive 
+  has an exponent smaller than the largest exponent in the 
+  corresponding MOLOPT-SR series (i.e., SZV-MOLOPT-SR).
+- Retain all functions with only smaller exponent primitives as is.
+- In the other functions, remove all primitives with too large 
+  exponents, and replace the smallest of these by the largest in the
+  MOLOPT-SR set.
 
 Note: mTZVP is mostly the def-TZVP basis, which in turn is 
 essentially a subset of def2-TZVP. Modifications are most prominent 
@@ -19,10 +20,9 @@ for H and O.
 The rationale behind my attempt is that I
 1. Keep the total number of valence (& higher) basis functions intact
 2. Don't need "core" basis functions because of the pseudopotential
-3. Use the SZV MOLOPT basis as glue between the pseudo and mTZVP
-4. Have the outermost basis functions be exactly mTZVP
+3. Have the outermost basis functions be exactly mTZVP
 
-Point (4) ought to guarantee that at least noncovalent interactions 
+Point (3) ought to guarantee that at least noncovalent interactions 
 are as close to the true B97-3c result as possible.
 
 I've seen/heard that people have used other, standard CP2K basis sets
